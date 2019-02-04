@@ -8,6 +8,7 @@
 using namespace std;
 typedef long long ll;
 
+#まだWA
 int main()
 {
     int N;

@@ -2,8 +2,17 @@
 
 using namespace std;
 typedef long long ll;
+template <class T>
+inline bool chmax(T &a, T b)
+{
+    if (a < b)
+    {
+        a = b;
+        return true;
+    }
+    return false;
+}
 
-//まだWA
 int main()
 {
     int N;
@@ -14,38 +23,59 @@ int main()
     {
         cin >> A[i];
     }
+    bitset<100> master;
     bitset<100> B;
-    bitset<100> ans;
-    for (int bit_cnt = 0; bit_cnt < 100; bit_cnt++)
+    master = K;
+    ll out = 0;
+    int memo[100] = {-1};
+    for (int idx = 99; idx >= 0; idx--)
     {
-        int cnt = 0;
-        for (int i = 0; i < N; i++)
+        if (master[idx] == 0)
         {
-            if (A[i] & (1 << bit_cnt))
+            continue;
+        }
+        B = master;
+        B[idx] = 0;
+        for (int bit_cnt = 0; bit_cnt < idx; bit_cnt++)
+        {
+            int cnt = 0;
+            if (memo[bit_cnt] != -1)
             {
-                cnt++;
+                cnt = memo[bit_cnt];
+            }
+            else
+            {
+                for (int i = 0; i < N; i++)
+                {
+                    if (A[i])
+                    {
+                        cnt++;
+                    }
+                }
+                memo[bit_cnt] = cnt;
+            }
+            if (cnt > (N - cnt))
+            {
+                B[bit_cnt] = 0;
+            }
+            else
+            {
+                B[bit_cnt] = 1;
             }
         }
-        if (cnt >= N - cnt)
+        ll X = ll(B.to_ullong());
+        ll temp = 0;
+        for (int i = 0; i < N; i++)
         {
-            B &= ~(1 << bit_cnt);
+            temp += ll(A[i] ^ X);
         }
-        else
-        {
-            B |= (1 << bit_cnt);
-        }
-        if (B.to_ullong() <= K)
-        {
-            ans = B;
-        }
-    }
-    ll X = ll(ans.to_ullong());
-    ll out = 0;
-    for (int i = 0; i < N; i++)
-    {
-        out += ll(A[i] ^ X);
-    }
 
+        chmax(out, temp);
+    }
+    if (K == 0)
+    {
+        out = A[0];
+    }
     cout << out;
-    // system("pause");
+    system("pause");
 }

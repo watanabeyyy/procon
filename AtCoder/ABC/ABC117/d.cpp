@@ -23,12 +23,17 @@ int main()
     {
         cin >> A[i];
     }
-    bitset<100> master;
-    bitset<100> B;
+    bitset<60> master;
+    bitset<60> B;
+    bitset<60> temp_bit;
     master = K;
     ll out = 0;
-    int memo[100] = {-1};
-    for (int idx = 99; idx >= 0; idx--)
+    int memo[60];
+    for (int i = 0; i < 60; i++)
+    {
+        memo[i] = -1;
+    }
+    for (int idx = 59; idx >= 0; idx--)
     {
         if (master[idx] == 0)
         {
@@ -47,7 +52,8 @@ int main()
             {
                 for (int i = 0; i < N; i++)
                 {
-                    if (A[i])
+                    temp_bit = A[i];
+                    if (temp_bit[bit_cnt] == 1)
                     {
                         cnt++;
                     }
@@ -69,12 +75,24 @@ int main()
         {
             temp += ll(A[i] ^ X);
         }
-
         chmax(out, temp);
     }
+    ll X = K;
+    ll temp = 0;
+    for (int i = 0; i < N; i++)
+    {
+        temp += ll(A[i] ^ X);
+    }
+    chmax(out, temp);
     if (K == 0)
     {
-        out = A[0];
+        ll X = 0;
+        ll temp = 0;
+        for (int i = 0; i < N; i++)
+        {
+            temp += ll(A[i] ^ X);
+        }
+        out = temp;
     }
     cout << out;
     system("pause");

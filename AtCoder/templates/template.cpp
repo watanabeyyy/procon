@@ -3,15 +3,10 @@ using namespace std;
 typedef long long ll;
 #define REP(i, n) FOR(i, 0, n)
 #define FOR(i, a, b) for (ll i = a; i < b; i++)
-#define PB push_back
-#define LB lower_bound
-#define UB upper_bound
-#define PQ priority_queue
 #define UM unordered_map
 #define ALL(a) (a).begin(), (a).end()
 typedef vector<ll> vi;
 typedef vector<vector<ll>> vvi;
-const ll INF = (1ll << 60);
 typedef pair<ll, ll> pii;
 struct Edge
 {

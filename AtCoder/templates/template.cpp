@@ -8,6 +8,7 @@ typedef long long ll;
 typedef vector<ll> vi;
 typedef vector<vector<ll>> vvi;
 typedef pair<ll, ll> pii;
+const long long INF = 1LL << 58;
 struct Edge
 {
     ll s, t, d;

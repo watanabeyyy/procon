@@ -8,6 +8,7 @@ typedef long long ll;
 typedef vector<ll> vi;
 typedef vector<vector<ll>> vvi;
 typedef pair<ll, ll> pii;
+const long long INF = 1LL << 58;
 struct Edge
 {
     ll s, t, d;
@@ -35,6 +36,13 @@ inline bool chmin(T &a, T b)
     return false;
 }
 
+ll query(ll pos, vi &st) //値渡しはTLE
+{
+    int a, b;
+    a = lower_bound(ALL(st), pos) - st.begin();
+    b = upper_bound(ALL(st), pos) - st.begin() - 1;
+    return min(abs(st[a] - pos), abs(st[b] - pos));
+}
 int main()
 {
     int A, B, Q;
@@ -42,22 +50,36 @@ int main()
     cin >> A >> B >> Q;
     s.resize(A + 1);
     t.resize(B + 1);
-    x.resize(Q + 1);
-    s[0] = 0;
-    t[0] = 0;
-    x[0] = 0;
-    REP(i, A)
+    x.resize(Q);
+    s[0] = -INF;
+    t[0] = -INF;
+    FOR(i, 1, A + 1)
     cin >> s[i];
-    REP(i, B)
+    FOR(i, 1, B + 1)
     cin >> t[i];
-    REP(i, Q)
+    FOR(i, 0, Q)
     cin >> x[i];
-    s.push_back(1 << 50);
-    t.push_back(1 << 50);
-    x.push_back(1 << 50);
+    s.push_back(INF);
+    t.push_back(INF);
+
+    int idx;
+    ll ans;
     REP(i, Q)
-    cout << *lower_bound(ALL(s), x[i]) << endl;
-    REP(i, Q)
-    cout << *lower_bound(ALL(s), x[i]) << endl;
+    {
+        ans = INF;
+        idx = lower_bound(ALL(s), x[i]) - s.begin();
+        chmin(ans, abs(x[i] - s[idx]) + query(s[idx], t));
+
+        idx = upper_bound(ALL(s), x[i]) - s.begin() - 1;
+        chmin(ans, abs(x[i] - s[idx]) + query(s[idx], t));
+
+        idx = lower_bound(ALL(t), x[i]) - t.begin();
+        chmin(ans, abs(x[i] - t[idx]) + query(t[idx], s));
+
+        idx = upper_bound(ALL(t), x[i]) - t.begin() - 1;
+        chmin(ans, abs(x[i] - t[idx]) + query(t[idx], s));
+
+        cout << ans << endl;
+    }
     system("pause");
 }

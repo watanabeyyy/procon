@@ -1,97 +1,64 @@
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-
-struct Card
+typedef long long ll;
+#define int ll
+#define REP(i, n) FOR(i, 0, n)
+#define FOR(i, a, b) for (ll i = a; i < b; i++)
+#define UM unordered_map
+#define ALL(a) (a).begin(), (a).end()
+typedef vector<ll> vi;
+typedef vector<vector<ll>> vvi;
+typedef pair<ll, ll> pii;
+const long long INF = 1LL << 58;
+struct Edge
 {
-	char suit, value;
+    ll s, t, d;
 };
-
-void BubbleSort(Card C[], int N)
+typedef vector<vector<Edge>> Graph;
+typedef vector<pii> vpii;
+template <class T>
+inline bool chmax(T &a, T b)
 {
-	Card temp;
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = N - 1; j >= i; j--)
-		{
-			if (C[j - 1].value > C[j].value)
-			{
-				temp = C[j - 1];
-				C[j - 1] = C[j];
-				C[j] = temp;
-			}
-		}
-	}
+    if (a < b)
+    {
+        a = b;
+        return true;
+    }
+    return false;
+}
+template <class T>
+inline bool chmin(T &a, T b)
+{
+    if (a > b)
+    {
+        a = b;
+        return true;
+    }
+    return false;
 }
 
-void SelectionSort(Card C[], int N)
+signed main()
 {
-	Card temp;
-	int minj;
-	for (int i = 0; i < N; i++)
-	{
-		minj = i;
-		for (int j = i; j < N; j++)
-		{
-			if (C[minj].value > C[j].value)
-			{
-				minj = j;
-			}
-		}
-		temp = C[i];
-		C[i] = C[minj];
-		C[minj] = temp;
-	}
-}
+    int N, x;
+    cin >> N >> x;
+    vi a;
+    a.resize(N);
+    REP(i, N)
+    cin >> a[i];
 
-int main(void)
-{
-	int N;
-	Card A[101];
-	cin >> N;
-	char input;
-	for (int i = 0; i < N; i++)
-		cin >> A[i].suit >> A[i].value;
+    sort(ALL(a));
 
-	Card B[101];
-	for (int i = 0; i < N; i++)
-		B[i] = A[i];
-	BubbleSort(B, N);
-	for (int i = 0; i < N - 1; i++)
-		cout << B[i].suit << B[i].value << " ";
-	cout << B[N - 1].suit << B[N - 1].value << endl;
-	cout << "Stable" << endl;
-
-	Card C[101];
-	for (int i = 0; i < N; i++)
-		C[i] = A[i];
-	SelectionSort(C, N);
-	for (int i = 0; i < N - 1; i++)
-		cout << C[i].suit << C[i].value << " ";
-	cout << C[N - 1].suit << C[N - 1].value << endl;
-
-	bool check = true;
-	for (int i = 0; i < N; i++)
-	{
-		if (B[i].suit != C[i].suit)
-		{
-			check = false;
-			break;
-		}
-		if (B[i].value != C[i].value)
-		{
-			check = false;
-			break;
-		}
-	}
-	if (check)
-	{
-		cout << "Stable" << endl;
-	}
-	else
-	{
-		cout << "Not stable" << endl;
-	}
-
-	return 0;
+    ll ans = 0;
+    REP(i, N)
+    {
+        x = x - a[i];
+        if (x >= 0)
+            ans++;
+        else
+            break;
+    }
+    if (x != 0 and x > 0)
+        ans--;
+    cout << ans << endl;
+    // system("pause");
 }

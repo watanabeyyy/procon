@@ -38,72 +38,48 @@ inline bool chmin(T &a, T b)
 }
 
 bool pairCompare(const pii &A, const pii &B) { return A.second > B.second; }
+bool sushiCompare(const vi &A, const vi &B) { return A[0] > B[0]; }
 
 signed main()
 {
     int N, K;
     cin >> N >> K;
-    vpii s;
-    s.resize(N);
+
     int t, d;
-    UM<int, bool>
-        sushi;
+    vvi sushi;
+
+    bool used_list[100001];
+    REP(i, 100001)
+    used_list[i] = false;
+
+    sushi.resize(N + 1);
+    REP(i, N + 1)
+    {
+        sushi[i].push_back(0);
+    }
     REP(i, N)
     {
         cin >> t >> d;
-        sushi[t] = false;
-        s[i] = make_pair(t, d);
+        sushi[t].push_back(d);
     }
+    REP(i, N + 1)
+    sort(sushi[i].begin(), sushi[i].end(), greater<int>());
 
-    sort(s.begin(), s.end(), pairCompare);
+    sort(sushi.begin(), sushi.end(), sushiCompare);
 
-    // REP(i, N)
-    // cout << s[i].first << s[i].second << endl;
-
-    int ans = 0;
-    int var = 0;
-
-    int A, B;
-    int Bi;
-    REP(i, K)
+    vvi tmp_sushi;
+    ll ans = 0;
+    ll tmp_ans = 0;
+    REP(i, N)
     {
-        A = 0;
-        B = 0;
-        REP(j, N - i)
-        {
-            if (!sushi[s[j].first])
-            {
-                B = s[j].second + (var + 1) * (var + 1);
-                Bi = j;
-                break;
-            }
-        }
-        if (!sushi[s[0].first])
-            A = s[0].second + (var + 1) * (var + 1);
-        else
-            A = s[0].second + var * var;
-
-        if (A >= B)
-        {
-            ans = ans + s[0].second;
-            if (!sushi[s[0].first])
-            {
-                var++;
-                sushi[s[0].first] = true;
-            }
-            s.erase(s.begin() + 0);
-        }
-        else
-        {
-            ans = ans + s[Bi].second;
-            if (!sushi[s[Bi].first])
-            {
-                var++;
-                sushi[s[Bi].first] = true;
-            }
-            s.erase(s.begin() + Bi);
-        }
+        tmp_ans = tmp_ans + sushi[i][0];
+        sushi[i].erase(sushi[i].begin());
+        tmp_sushi = sushi;
+        REP(j, sushi[i].size())
+        cout << sushi[i][j] << " ";
+        cout << endl;
     }
 
-    cout << ans + var * var << endl;
-    //system("pause");
+    // cout << ans + var * var << endl;
+    system("pause");
+}

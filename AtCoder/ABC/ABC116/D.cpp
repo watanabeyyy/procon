@@ -9,6 +9,8 @@ typedef long long ll;
 typedef vector<ll> vi;
 typedef vector<vector<ll>> vvi;
 typedef pair<ll, ll> pii;
+typedef pair<ll, priority_queue<int, vector<int>, greater<int>>> greatersushi;
+typedef pair<ll, priority_queue<int>> lesssushi;
 const long long INF = 1LL << 58;
 struct Edge
 {
@@ -38,48 +40,122 @@ inline bool chmin(T &a, T b)
 }
 
 bool pairCompare(const pii &A, const pii &B) { return A.second > B.second; }
-bool sushiCompare(const vi &A, const vi &B) { return A[0] > B[0]; }
+bool greatersushiCompare(const greatersushi &A, const greatersushi &B)
+{
+    return A.second.top() < B.second.top();
+}
+bool lesssushiCompare(const lesssushi &A, const lesssushi &B)
+{
+    return A.second.top() > B.second.top();
+}
 
 signed main()
 {
     int N, K;
     cin >> N >> K;
-
+    vpii sushi;
+    sushi.resize(N);
     int t, d;
-    vvi sushi;
+    REP(i, N)
+    {
+        cin >> t >> d;
+        sushi[i] = make_pair(t, d);
+    }
+    //おいしさ昇順に並べ替え
+    sort(sushi.begin(), sushi.end(), pairCompare);
 
+    int var;
+    int deli = 0;
+    int ans = 0;
+    vector<greatersushi> eat;
+    vector<lesssushi> not_eat;
+    eat.resize(N);
+    not_eat.resize(N);
+    REP(i, N)
+    {
+        eat[i].first = i + 1;
+        not_eat[i].first = i + 1;
+    }
+
+    //食べる種類リスト
     bool used_list[100001];
     REP(i, 100001)
     used_list[i] = false;
 
-    sushi.resize(N + 1);
+    pii tmp;
+    REP(i, N)
+    {
+        if (i < K)
+        {
+            tmp = sushi[0];
+            sushi.erase(sushi.begin());
+            used_list[tmp.first] = true;
+            eat[tmp.first - 1].second.push(tmp.second);
+            deli = deli + tmp.second;
+        }
+        else
+        {
+            tmp = sushi[0];
+            sushi.erase(sushi.begin());
+            not_eat[tmp.first - 1].second.push(tmp.second);
+        }
+    }
+
+    var = 0;
     REP(i, N + 1)
     {
-        sushi[i].push_back(0);
+        if (used_list[i])
+            var++;
+    }
+    chmax(ans, deli + var * var);
+
+    REP(i, N)
+    {
+        if (eat[i].second.empty() or (eat[i].second.size() == 1))
+        {
+            eat.erase(eat.begin() + i);
+            i--;
+            if (eat.size() == i)
+                break;
+        }
     }
     REP(i, N)
     {
-        cin >> t >> d;
-        sushi[t].push_back(d);
+        if (not_eat[i].second.empty() or used_list[not_eat[i].first])
+        {
+            not_eat.erase(not_eat.begin() + i);
+            i--;
+            if (not_eat.size() == i)
+                break;
+        }
     }
-    REP(i, N + 1)
-    sort(sushi[i].begin(), sushi[i].end(), greater<int>());
 
-    sort(sushi.begin(), sushi.end(), sushiCompare);
-
-    vvi tmp_sushi;
-    ll ans = 0;
-    ll tmp_ans = 0;
-    REP(i, N)
+    while (true)
     {
-        tmp_ans = tmp_ans + sushi[i][0];
-        sushi[i].erase(sushi[i].begin());
-        tmp_sushi = sushi;
-        REP(j, sushi[i].size())
-        cout << sushi[i][j] << " ";
-        cout << endl;
+        sort(eat.begin(), eat.end(), greatersushiCompare);
+        sort(not_eat.begin(), not_eat.end(), lesssushiCompare);
+        cout << var << endl;
+
+        deli = deli - eat[0].second.top();
+        eat[0].second.pop();
+
+        deli = deli + not_eat[0].second.top();
+        var++;
+        chmax(ans, deli + var * var);
+
+        if (eat[0].second.size() == 1)
+        {
+            if (eat.size() == 1)
+                break;
+        }
+        eat.erase(eat.begin());
+        cout << eat.size() << endl;
+        cout << not_eat.size() << endl;
+        if (not_eat.size() == 1)
+            break;
+        not_eat.erase(not_eat.begin());
     }
 
-    // cout << ans + var * var << endl;
+    cout << ans << endl;
     system("pause");
 }

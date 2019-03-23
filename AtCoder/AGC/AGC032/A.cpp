@@ -39,5 +39,38 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
-    system("pause");
+    int N;
+    cin >> N;
+    vi b;
+    b.resize(N);
+    REP(i, N)
+    cin >> b[i];
+
+    int tmp;
+    vi ans;
+    while (true)
+    {
+        if (ans.size() == N)
+            break;
+        tmp = -1;
+        REP(i, b.size())
+        {
+            if (b[i] == i + 1)
+                tmp = i;
+        }
+        if (tmp == -1)
+            break;
+
+        ans.push_back(b[tmp]);
+        b.erase(b.begin() + tmp);
+    }
+    if (ans.size() == N)
+    {
+        REP(i, N)
+        cout << ans[N - 1 - i] << endl;
+    }
+    else
+        cout << -1 << endl;
+
+    // system("pause");
 }

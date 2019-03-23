@@ -39,5 +39,20 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
-    system("pause");
+    int A = INF;
+    int B = INF;
+    int tmp;
+    cin >> tmp;
+    A = min(A, tmp * 4);
+    cin >> tmp;
+    A = min(A, tmp * 2);
+    cin >> tmp;
+    A = min(A, tmp * 1);
+    cin >> tmp;
+    B = min(A * 2, tmp);
+
+    int N;
+    cin >> N;
+    cout << N % 2 * A + N / 2 * B << endl;
+    // system("pause");
 }

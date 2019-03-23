@@ -9,8 +9,6 @@ typedef long long ll;
 typedef vector<ll> vi;
 typedef vector<vector<ll>> vvi;
 typedef pair<ll, ll> pii;
-typedef pair<ll, priority_queue<int, vector<int>, greater<int>>> greatersushi;
-typedef pair<ll, priority_queue<int>> lesssushi;
 const long long INF = 1LL << 58;
 struct Edge
 {
@@ -39,15 +37,8 @@ inline bool chmin(T &a, T b)
     return false;
 }
 
-bool pairCompare(const pii &A, const pii &B) { return A.second > B.second; }
-bool greatersushiCompare(const greatersushi &A, const greatersushi &B)
-{
-    return A.second.top() < B.second.top();
-}
-bool lesssushiCompare(const lesssushi &A, const lesssushi &B)
-{
-    return A.second.top() > B.second.top();
-}
+typedef priority_queue<pii, vector<pii>, greater<pii>> eat_;
+typedef priority_queue<pii> not_eat_;
 
 signed main()
 {
@@ -59,101 +50,61 @@ signed main()
     REP(i, N)
     {
         cin >> t >> d;
-        sushi[i] = make_pair(t, d);
+        sushi[i] = make_pair(d, t);
     }
-    //おいしさ昇順に並べ替え
-    sort(sushi.begin(), sushi.end(), pairCompare);
+
+    //食べる候補を保持するqueue
+    eat_ eat;
+    not_eat_ not_eat;
+    //食べる個数
+    map<int, int> used_list;
+
+    //おいしさ降順に並び替える
+    sort(sushi.begin(), sushi.end(), greater<pii>());
 
     int var;
     int deli = 0;
     int ans = 0;
-    vector<greatersushi> eat;
-    vector<lesssushi> not_eat;
-    eat.resize(N);
-    not_eat.resize(N);
-    REP(i, N)
-    {
-        eat[i].first = i + 1;
-        not_eat[i].first = i + 1;
-    }
-
-    //食べる種類リスト
-    bool used_list[100001];
-    REP(i, 100001)
-    used_list[i] = false;
-
-    pii tmp;
+    // 美味しいものから貪欲に選ぶ。
     REP(i, N)
     {
         if (i < K)
         {
-            tmp = sushi[0];
-            sushi.erase(sushi.begin());
-            used_list[tmp.first] = true;
-            eat[tmp.first - 1].second.push(tmp.second);
-            deli = deli + tmp.second;
+            deli = deli + sushi[i].first;
+            if (++used_list[sushi[i].second] > 1) //2個以上あるやつは交換候補へ
+                eat.push(sushi[i]);
         }
         else
         {
-            tmp = sushi[0];
-            sushi.erase(sushi.begin());
-            not_eat[tmp.first - 1].second.push(tmp.second);
+            if (used_list.find(sushi[i].second) == used_list.end()) //食べるリストにない種類を一個だけ交換候補へ。キーの存在で判断できる。
+            {
+                used_list[sushi[i].second] = 0;
+                not_eat.push(sushi[i]);
+            }
         }
     }
 
+    //スコア計算
     var = 0;
-    REP(i, N + 1)
+    REP(i, 100001)
     {
-        if (used_list[i])
+        if (used_list[i] != 0)
             var++;
     }
     chmax(ans, deli + var * var);
 
-    REP(i, N)
-    {
-        if (eat[i].second.empty() or (eat[i].second.size() == 1))
-        {
-            eat.erase(eat.begin() + i);
-            i--;
-            if (eat.size() == i)
-                break;
-        }
-    }
-    REP(i, N)
-    {
-        if (not_eat[i].second.empty() or used_list[not_eat[i].first])
-        {
-            not_eat.erase(not_eat.begin() + i);
-            i--;
-            if (not_eat.size() == i)
-                break;
-        }
-    }
-
+    //種類が増えるように、食べるものリストのまずいやつと食べないものリストの美味しいやつを交換していく。
     while (true)
     {
-        sort(eat.begin(), eat.end(), greatersushiCompare);
-        sort(not_eat.begin(), not_eat.end(), lesssushiCompare);
-        cout << var << endl;
+        if (eat.empty() or not_eat.empty())
+            break;
+        deli -= eat.top().first;
+        eat.pop();
+        deli += not_eat.top().first;
+        not_eat.pop();
 
-        deli = deli - eat[0].second.top();
-        eat[0].second.pop();
-
-        deli = deli + not_eat[0].second.top();
         var++;
         chmax(ans, deli + var * var);
-
-        if (eat[0].second.size() == 1)
-        {
-            if (eat.size() == 1)
-                break;
-        }
-        eat.erase(eat.begin());
-        cout << eat.size() << endl;
-        cout << not_eat.size() << endl;
-        if (not_eat.size() == 1)
-            break;
-        not_eat.erase(not_eat.begin());
     }
 
     cout << ans << endl;

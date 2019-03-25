@@ -41,7 +41,7 @@ signed main()
 {
     int N, X;
     cin >> N >> X;
-    int bp[51][2];
+    int bp[52][2];
     REP(i, 52)
     {
         bp[i][0] = 2;
@@ -55,13 +55,15 @@ signed main()
         bp[i + 1][1] += bp[i][1] * 2;
     }
     int ans = 0;
-    for (int i = N; i > 0; i--)
+    for (int i = N; i >= 0; i--)
     {
-        if (X == 1)
+        if (i == 0)
+            ans++;
+        else if (X == 1)
             break;
         else if (X < 1 + bp[i - 1][0] + bp[i - 1][1])
         {
-            continue;
+            X -= 1;
         }
         else if (X == 1 + bp[i - 1][0] + bp[i - 1][1])
         {

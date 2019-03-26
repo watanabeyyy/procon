@@ -59,7 +59,9 @@ int pat(int num)
     if (num < 0)
         num = 0;
     if (memo[num] != -1)
+    {
         return memo[num];
+    }
     else
     {
         memo[num] = kazoeage(0, 0, num);
@@ -67,72 +69,82 @@ int pat(int num)
     }
 }
 
-int H, W, K;
-int ans;
-
-//一層ずつ考えていく
-void dfs(int now_h, int now_w, int num)
-{
-    if (now_h == H + 1)
-    {
-        ans += num;
-        ans %= MOD;
-        return;
-    }
-    //左に行く
-    if (now_w != 1 and now_w - 1 >= K - (H - now_h))
-    {
-        if (now_w - 1 == 1 or now_w == W)
-        {
-            num *= pat((W - 1) - 2);
-        }
-        else
-        {
-            num *= pat(now_w - 3);
-            num *= pat((W - 1) - (now_w - 3) - 3);
-        }
-        dfs(now_h + 1, now_w - 1, num);
-    }
-    //下に行く
-    if (now_w >= K - (H - now_h) and now_w <= K + (H - now_h))
-    {
-        if (now_w == W or now_w == 1)
-        {
-            num *= pat((W - 1) - 1);
-        }
-        else
-        {
-            num *= pat(now_w - 2);
-            num *= pat((W - 1) - (now_w - 2) - 2);
-        }
-        dfs(now_h + 1, now_w, num);
-    }
-
-    //右に行く
-    if (now_w != W and now_w + 1 <= K + (H - now_h))
-    {
-        if (now_w + 1 == W or now_w == 1)
-        {
-            num *= pat((W - 1) - 2);
-        }
-        else
-        {
-            num *= pat(now_w - 2);
-            num *= pat((W - 1) - (now_w - 2) - 3);
-        }
-        dfs(now_h + 1, now_w + 1, num);
-    }
-}
-
 signed main()
 {
+    int H, W, K;
+    cin >> H >> W >> K;
+
     REP(i, 10)
     memo[i] = -1;
-    ans = 0;
 
-    cin >> H >> W >> K;
-    dfs(1, 1, 1);
-    cout << ans << endl;
+    int a[10], tmp[10];
+    a[1] = 1;
+    FOR(i, 2, W + 1)
+    a[i] = 0;
 
-    system("pause");
+    int num;
+    FOR(i, 1, H + 1)
+    {
+        REP(i, 10)
+        tmp[i] = 0;
+
+        FOR(j, 1, W + 1)
+        {
+            //左に行く
+            if (j != 1 and j - 1 >= K - (H - i))
+            {
+                num = a[j];
+                if (j - 1 == 1 or j == W)
+                {
+                    num *= pat((W - 1) - 2);
+                }
+                else
+                {
+                    num *= pat(j - 3);
+                    num *= pat((W - 1) - (j - 3) - 3);
+                }
+                tmp[j - 1] += num;
+                tmp[j - 1] %= MOD;
+            }
+            //下に行く
+            if (j >= K - (H - i) and j <= K + (H - i))
+            {
+                num = a[j];
+                if (j == W or j == 1)
+                {
+                    num *= pat((W - 1) - 1);
+                }
+                else
+                {
+                    num *= pat(j - 2);
+                    num *= pat((W - 1) - (j - 2) - 2);
+                }
+                tmp[j] += num;
+                tmp[j] %= MOD;
+            }
+
+            //右に行く
+            if (j != W and j + 1 <= K + (H - i))
+            {
+                num = a[j];
+                if (j + 1 == W or j == 1)
+                {
+                    num *= pat((W - 1) - 2);
+                }
+                else
+                {
+                    num *= pat(j - 2);
+                    num *= pat((W - 1) - (j - 2) - 3);
+                }
+                tmp[j + 1] += num;
+                tmp[j + 1] %= MOD;
+            }
+        }
+        REP(j, 10)
+        a[j] = tmp[j];
+    }
+
+    cout << a[K] << endl;
+
+    // system("pause");
 }

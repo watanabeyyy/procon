@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -38,7 +39,38 @@ inline bool chmin(T &a, T b)
     return false;
 }
 
+const int n = 5000000000000000;
 signed main()
 {
+    string S;
+    int K;
+    cin >> S >> K;
+    int tmp;
+    REP(i, S.size())
+    {
+        tmp = stoi(S.substr(i, 1));
+        if (tmp == 1)
+        {
+            K--;
+            if (K == 0)
+            {
+                cout << tmp << endl;
+                return 0;
+            }
+        }
+        else
+        {
+            REP(j, tmp - 1)
+            REP(l, tmp - 1)
+            {
+                K -= n;
+                if (K <= 0)
+                {
+                    cout << tmp << endl;
+                    return 0;
+                }
+            }
+        }
+    }
     // system("pause");
 }

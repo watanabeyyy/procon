@@ -40,18 +40,22 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
-    string S;
-    int K;
-    cin >> S >> K;
-    int tmp;
-    REP(i, K)
+    int A, B, N;
+    cin >> N;
+    A = 0;
+    B = 0;
+    char c;
+    REP(i, N)
     {
-        tmp = stoi(S.substr(i, 1));
-        if (tmp == 1)
-            continue;
+        cin >> c;
+        if (c == 'R')
+            A++;
         else
-            break;
+            B++;
     }
-    cout << tmp << endl;
+    if (A > B)
+        cout << "Yes" << endl;
+    else
+        cout << "No" << endl;
     // system("pause");
 }

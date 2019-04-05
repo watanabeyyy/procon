@@ -52,7 +52,7 @@ struct BIT
     // a_i += w
     void add(int i, int w)
     {
-        //補数を使って、最初のビットを調べるテク
+        //補数を使って、最初のビット(LSB)を調べるテク
         for (int x = i; x <= n; x += x & -x)
         {
             bi[x] += w;

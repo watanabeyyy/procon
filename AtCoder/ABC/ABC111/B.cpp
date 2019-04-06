@@ -45,11 +45,11 @@ signed main()
     int tmp = N / 100;
     int ans;
     ans = tmp * 100 + tmp * 10 + tmp;
-    if (N > tmp)
+    if (N > ans)
         tmp++;
 
     ans = tmp * 100 + tmp * 10 + tmp;
     cout << ans << endl;
 
-    // system("pause");
+    system("pause");
 }

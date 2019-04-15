@@ -40,82 +40,35 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
-    int N;
-    vpii xy;
-    cin >> N;
-    xy.resize(N);
-    REP(i, N)
-    cin >> xy[i].first >> xy[i].second;
-
-    //abs(x)+abs(y)のパリティが全部同じかチェック
-    bool p = ((abs(xy[0].first) + abs(xy[0].second)) % 2 == 0);
-    REP(i, N - 1)
+    int N, M;
+    int a, b;
+    cin >> N >> M;
+    vi ab;
+    ab.resize(N + 1);
+    REP(i, N + 1)
+    ab[i] = INF;
+    REP(i, M)
     {
-        if (p != ((abs(xy[i + 1].first) + abs(xy[i + 1].second)) % 2 == 0))
+        cin >> a >> b;
+        if (ab[a] > b)
+            ab[a] = b;
+    }
+    int ans = 0;
+    int tmp = -1;
+    REP(i, N + 1)
+    {
+        if (ab[i] == INF)
+            continue;
+        if (tmp <= i)
         {
-            cout << -1 << endl;
-            return 0;
+            ans++;
+            tmp = ab[i];
+        }
+        else
+        {
+            chmin(tmp, ab[i]);
         }
     }
-
-    vi arm;
-    if (p)
-        arm.push_back(1);
-    int tmp = 1;
-    REP(i, 39)
-    {
-        arm.push_back(tmp);
-        tmp *= 2;
-    }
-    sort(arm.begin(), arm.end(), greater<int>());
-    cout << arm.size() << endl;
-    REP(i, arm.size())
-    cout << arm[i] << " ";
-    cout << endl;
-
-    int nowA, nowB;
-    bool modeA, modeB;
-    int dirA, dirB;
-
-    REP(i, N)
-    {
-        nowA = 0;
-        nowB = 0;
-        dirA = xy[i].first + xy[i].second;
-        dirB = xy[i].first - xy[i].second;
-        REP(i, arm.size())
-        {
-            if (nowA < dirA)
-            {
-                nowA += arm[i];
-                modeA = true;
-            }
-            else
-            {
-                nowA -= arm[i];
-                modeA = false;
-            }
-            if (nowB < dirB)
-            {
-                nowB += arm[i];
-                modeB = true;
-            }
-            else
-            {
-                nowB -= arm[i];
-                modeB = false;
-            }
-            if (modeA and modeB)
-                cout << 'R';
-            if (modeA and !modeB)
-                cout << 'U';
-            if (!modeA and !modeB)
-                cout << 'L';
-            if (!modeA and modeB)
-                cout << 'D';
-        }
-        cout << endl;
-    }
-
+    cout << ans << endl;
     // system("pause");
 }

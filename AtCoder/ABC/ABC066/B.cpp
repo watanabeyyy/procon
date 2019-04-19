@@ -35,5 +35,21 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    string S;
+    cin >> S;
+    REP(i, S.size() / 2)
+    {
+        REP(j, (S.size() - (i + 1) * 2) / 2)
+        {
+            if (S[j] != S[j + (S.size() - (i + 1) * 2) / 2])
+                break;
+            if (j == (S.size() - (i + 1) * 2) / 2 - 1)
+            {
+                cout << S.size() - (i + 1) * 2 << endl;
+
+                return 0;
+            }
+        }
+    }
     // system("pause");
 }

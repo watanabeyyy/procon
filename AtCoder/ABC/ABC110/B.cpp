@@ -35,5 +35,18 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int N, M, X, Y;
+    cin >> N >> M >> X >> Y;
+    vi x;
+    vi y;
+    x.resize(N);
+    y.resize(M);
+    bool ans = false;
+    int tmp;
+    REP(i, N)
+    {
+        cin >> tmp;
+        if (tmp > X)
+    }
     // system("pause");
 }

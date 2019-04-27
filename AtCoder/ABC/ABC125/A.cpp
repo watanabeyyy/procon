@@ -35,12 +35,8 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
-    int N;
-    cin >> N;
-    vi a;
-    a.resize(N);
-    REP(i, N)
-    cin >> a[i];
-
-        // system("pause");
+    int A, B, C;
+    cin >> A >> B >> C;
+    cout << C / A * B << endl;
+    // system("pause");
 }

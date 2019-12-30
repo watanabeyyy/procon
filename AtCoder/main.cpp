@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-#define int ll;
+#define int ll
 #define REP(i, n) FOR(i, 0, n)
 #define FOR(i, a, b) for (ll i = a; i < b; i++)
 #define UM unordered_map
@@ -39,19 +39,8 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
-    ll N;
-    cin >> N;
-    ll tmp;
-    ll lst[200001];
-    REP(i, 200001)
-    lst[i] = 0;
-    ll ans = 0;
-    REP(i, N)
-    {
-        cin >> tmp;
-        lst[tmp] = lst[tmp - 1] + 1;
-        chmax(ans, lst[tmp]);
-    }
-    cout << N - ans << endl;
-    system("pause");
+    string S, T;
+    cin >> S >> T;
+    cout << T + S << endl;
+    // system("pause");
 }

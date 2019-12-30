@@ -11,6 +11,11 @@ typedef vector<vector<ll>> vvi;
 typedef pair<ll, ll> pii;
 const ll INF = 1LL << 58;
 const ll MOD = 1000000007;
+struct Edge
+{
+    ll s, t, d;
+};
+typedef vector<vector<Edge>> Graph;
 typedef vector<pii> vpii;
 template <class T>
 inline bool chmax(T &a, T b)
@@ -35,5 +40,16 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    vi a;
+    a.resize(5);
+    REP(i, 5)
+    cin >> a[i];
+    sort(ALL(a));
+    int k;
+    cin >> k;
+    if (a[4] - a[0] > k)
+        cout << ":(" << endl;
+    else
+        cout << "Yay!" << endl;
     // system("pause");
 }

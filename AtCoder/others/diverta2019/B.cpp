@@ -35,5 +35,22 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int A, B, C, N;
+    cin >> A >> B >> C >> N;
+    int ans = 0;
+    int tmp = 0;
+    REP(i, 3001)
+    {
+        REP(j, 3001)
+        {
+            tmp = N - A * i - B * j;
+            if (tmp < 0)
+                break;
+            if (tmp % C == 0)
+                ans++;
+        }
+    }
+    cout << ans << endl;
+
     // system("pause");
 }

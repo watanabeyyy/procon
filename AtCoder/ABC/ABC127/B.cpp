@@ -35,5 +35,13 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int r, D, x;
+    cin >> r >> D >> x;
+    REP(i, 10)
+    {
+        x = r * x - D;
+        cout << x << endl;
+    }
+
     // system("pause");
 }

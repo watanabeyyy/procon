@@ -35,5 +35,18 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int N;
+    pair<pair<string, int>, int> iSP[101];
+    cin >> N;
+    REP(i, N)
+    {
+        iSP[i].second = i + 1;
+        cin >> iSP[i].first.first >> iSP[i].first.second;
+        iSP[i].first.second *= -1;
+    }
+    sort(iSP, iSP + N);
+    REP(i, N)
+    cout << iSP[i].second << endl;
+
     // system("pause");
 }

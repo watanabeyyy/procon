@@ -35,5 +35,26 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int N;
+    vi W;
+    cin >> N;
+    W.resize(N);
+    int a = 0;
+    int b = 0;
+    REP(i, N)
+    {
+        cin >> W[i];
+        b += W[i];
+    }
+
+    int ans = INF;
+    FOR(i, 0, N)
+    {
+        a += W[i];
+        b -= W[i];
+        ans = min(ans, abs(a - b));
+    }
+    cout << ans << endl;
+
     // system("pause");
 }

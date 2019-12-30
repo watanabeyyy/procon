@@ -35,5 +35,45 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int N;
+    cin >> N;
+    string S;
+    cin >> S;
+    vi b;
+    b.resize(N);
+
+    int num = 0;
+    vi c;
+    c.resize(N + 1);
+    c[0] = 0;
+    vi d;
+    d.resize(N + 1);
+    d[0] = 0;
+    REP(i, N)
+    {
+        if (S[i] == '.')
+        {
+            b[i] = false;
+            c[i + 1] = c[i] + 1;
+            d[i + 1] = d[i];
+        }
+        else
+        {
+            b[i] = true;
+            num++;
+            c[i + 1] = c[i];
+            d[i + 1] = d[i] + 1;
+        }
+    }
+    int ans = INF;
+    int tmp;
+    REP(i, N + 1)
+    {
+        tmp = d[i] + c[N] - c[i];
+        chmin(ans, tmp);
+    }
+
+    cout << ans << endl;
+
     // system("pause");
 }

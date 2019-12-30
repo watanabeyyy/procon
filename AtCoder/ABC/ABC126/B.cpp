@@ -35,5 +35,22 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    string S;
+    cin >> S;
+    bool a = false;
+    bool b = false;
+    if (stoi(S.substr(0, 2)) <= 12 and stoi(S.substr(0, 2)) > 0)
+        b = true;
+    if (stoi(S.substr(2, 2)) <= 12 and stoi(S.substr(2, 2)) > 0)
+        a = true;
+    if (a and b)
+        cout << "AMBIGUOUS" << endl;
+    else if (a)
+        cout << "YYMM" << endl;
+    else if (b)
+        cout << "MMYY" << endl;
+    else
+        cout << "NA" << endl;
+
     // system("pause");
 }

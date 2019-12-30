@@ -35,5 +35,37 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    vi ABC;
+    ABC.resize(3);
+    cin >> ABC[0] >> ABC[1] >> ABC[2];
+    vi A;
+    vi B;
+    REP(i, 3)
+    {
+        if (ABC[i] % 2 == 0)
+            A.push_back(ABC[i]);
+        else
+            B.push_back(ABC[i]);
+    }
+    int ans = 0;
+    if (A.size() == 2)
+        swap(A, B);
+    if (B.size() == 2)
+    {
+        B[0]++;
+        B[1]++;
+        ans++;
+    }
+    vi AB;
+    REP(i, A.size())
+    AB.push_back(A[i]);
+    REP(i, B.size())
+    AB.push_back(B[i]);
+
+    sort(ALL(AB));
+    ans += (AB[2] - AB[0]) / 2;
+    ans += (AB[2] - AB[1]) / 2;
+    cout << ans << endl;
+
     // system("pause");
 }

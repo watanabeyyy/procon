@@ -35,5 +35,11 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    vi PQR;
+    PQR.resize(3);
+    cin >> PQR[0] >> PQR[1] >> PQR[2];
+    sort(ALL(PQR));
+    cout << PQR[0] + PQR[1] << endl;
+
     // system("pause");
 }

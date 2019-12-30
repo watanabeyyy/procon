@@ -35,5 +35,8 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    int A, B;
+    cin >> A >> B;
+    cout << A - B + 1 << endl;
     // system("pause");
 }

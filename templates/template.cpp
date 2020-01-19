@@ -34,5 +34,9 @@ inline bool chmin(T &a, T b)
 
 signed main()
 {
+    //  以降 cin の入力元が 'input.txt' になる
+    //std::ifstream in("input.txt");
+    //std::cin.rdbuf(in.rdbuf());
+
     return 0;
 }

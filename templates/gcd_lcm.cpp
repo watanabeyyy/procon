@@ -1,19 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// 最大公約数
-int gcd(int a, int b)
+/* a と b の最大公約数を返す関数 */
+long long GCD(long long a, long long b)
 {
-   if (a%b == 0)
-       return(b);
+   if (b == 0)
+      return a;
    else
-       return(gcd(b, a%b));
+      return GCD(b, a % b);
 }
 
-//最小公倍数
-int lcm(int a, int b)
+/* a と b の最小公倍数を求める */
+long long LCM(long long a, long long b)
 {
-   return a * b / gcd(a, b);
+   long long g = GCD(a, b);
+   return a / g * b;
 }
 
 int main()
@@ -23,8 +24,8 @@ int main()
    b = 16;
 
    // 最大公約数
-   cout << gcd(a, b) << endl;
+   cout << GCD(a, b) << endl;
    //最小公倍数
-   cout << lcm(a, b) << endl;
+   cout << LCM(a, b) << endl;
    return 0;
 }

@@ -32,69 +32,59 @@ inline bool chmin(T &a, T b)
     return false;
 }
 
-int A[110];
-int head = -1;
-
-int pop()
-{
-    head--;
-    return A[head + 1];
-}
-
-void push(int a)
-{
-    head++;
-    A[head] = a;
-}
-
 signed main()
 {
     //  以降 cin の入力元が 'input.txt' になる
     //std::ifstream in("input.txt");
     //std::cin.rdbuf(in.rdbuf());
-    string S = "1 2 + 4 3 - *";
-    int tmp = 0;
-    int length = 0;
-    bool flg = 0;
-    while (tmp < S.size())
+    string S = "\\\\///\\_/\\/\\\\\\\\/_/\\\\///__\\\\\\_\\\\/_\\/_/\\";
+    stack<int> sta;
+    stack<pair<int, int>> ans;
+    REP(i, S.size())
     {
-        length++;
-        if (tmp + length >= S.size())
-            flg = 1;
-        else if (S[tmp + length] == ' ')
-            flg = 1;
-        else
-            flg = 0;
-        if (flg)
+        if (S[i] == '\\')
         {
-            string ss = S.substr(tmp, length);
-            if (ss == "+")
+            sta.push(i);
+        }
+        else if (sta.empty())
+            continue;
+        else if (S[i] == '/')
+        {
+            ans.push(make_pair(sta.top(), i - sta.top()));
+            sta.pop();
+            while (ans.size() > 1)
             {
-                int a = pop();
-                int b = pop();
-                push(a + b);
+                pair<int, int> tmp = ans.top();
+                ans.pop();
+                if (ans.top().first > tmp.first)
+                {
+                    pair<int, int> newpair = make_pair(tmp.first, ans.top().second + tmp.second);
+                    ans.pop();
+                    ans.push(newpair);
+                }
+                else
+                {
+                    ans.push(tmp);
+                    break;
+                }
             }
-            else if (ss == "-")
-            {
-                int a = pop();
-                int b = pop();
-                push(b - a);
-            }
-            else if (ss == "*")
-            {
-                int a = pop();
-                int b = pop();
-                push(b * a);
-            }
-            else
-            {
-                int num = stoi(ss);
-                push(num);
-            }
-            tmp += length + 1;
-            length = 0;
         }
     }
-    cout << pop() << endl;
+    vi anss;
+    int cnt = 0;
+    while (ans.empty() == 0)
+    {
+        cnt += ans.top().second;
+        anss.push_back(ans.top().second);
+        ans.pop();
+    }
+
+    cout << cnt << endl;
+    cout << anss.size() << " ";
+    REP(i, anss.size())
+    {
+        cout << anss[anss.size() - 1 - i] << " ";
+    }
+    cout << endl;
     return 0;
 }

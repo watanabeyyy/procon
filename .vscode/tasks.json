@@ -8,12 +8,9 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "-std=gnu++1y",
-                "-g",
-                "-O2",
-                "${fileDirname}\\${fileBasename}",
+                "${fileDirname}/${fileBasename}",
                 "-o",
-                "${fileDirname}\\o.exe"
+                "${fileDirname}/o.out"
             ],
             "group": {
                 "kind": "build",
@@ -24,7 +21,7 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "command": "${fileDirname}/o.out",
         }
     ]
 }

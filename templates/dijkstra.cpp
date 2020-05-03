@@ -60,15 +60,17 @@ void dijkstra()
     {
         pair<int, int> tmp = pq.top();
         pq.pop();
+        //コストが確定していないノードから最小のコストで行ける物を探す
         if (t[tmp.second] == -1)
         {
+            //ノードとコストの確定
             t[tmp.second] = tmp.first;
+            //確定したノードから行ける確定していないノードをpqに追加
             REP(i, mem[tmp.second].size())
             {
                 int v = mem[tmp.second][i].first;
                 int c = mem[tmp.second][i].second;
-                cout << v << " " << t[v] << endl;
-                if (t[v] != -1)
+                if (t[v] == -1)
                     pq.push(make_pair(t[tmp.second] + c, v));
             }
         }

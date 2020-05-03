@@ -1,7 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-#define MAX_N 100000
+#define int long long
+#define REP(i, n) for (int i = 0; i < n; i++)
+#define ALL(a) (a).begin(), (a).end()
+typedef vector<int> vi;
+const int INF = 1LL << 58;
+const int MOD = 1000000007;
+const int MAX_N = 200100;
 
 int uf_par[MAX_N];  //親
 int uf_rank[MAX_N]; //木の深さ

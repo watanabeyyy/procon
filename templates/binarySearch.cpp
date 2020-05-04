@@ -1,59 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-#define int ll
-#define REP(i, n) FOR(i, 0, n)
-#define FOR(i, a, b) for (ll i = a; i < b; i++)
+#define int long long
+#define REP(i, n) for (int i = 0; i < n; i++)
 #define ALL(a) (a).begin(), (a).end()
-typedef vector<ll> vi;
-typedef vector<vector<ll>> vvi;
-typedef pair<ll, ll> pii;
-const ll INF = 1LL << 58;
-const ll MOD = 1000000007;
-typedef vector<pii> vpii;
-template <class T>
-inline bool chmax(T &a, T b)
+typedef vector<int> vi;
+const int INF = 1LL << 58;
+const int MOD = 1000000007;
+const int MAX_N = 200100;
+
+int func(int b)
 {
-    if (a < b)
-    {
-        a = b;
-        return true;
-    }
-    return false;
-}
-template <class T>
-inline bool chmin(T &a, T b)
-{
-    if (a > b)
-    {
-        a = b;
-        return true;
-    }
-    return false;
+    return b * b * b * b * b;
 }
 
-int binarySearch(vi A, int key)
+// index が条件を満たすかどうか
+bool isOK(int index, int key)
 {
-    int left = 0;
-    int right = A.size() - 1;
+    if (func(index) >= key)
+        return true;
+    else
+        return false;
+}
 
-    int idx = (right + left) / 2;
-    while (left <= right)
+// 汎用的な二分探索のテンプレ
+int binary_search(int key)
+{
+    //探索区間の初期値
+    int left = -1000;
+    int right = 1000;
+
+    /* どんな二分探索でもここの書き方を変えずにできる！ */
+    while (right - left > 1)
     {
-        if (A[idx] == key)
-            return 1;
-        else if (A[idx] < key)
-        {
-            left = idx + 1;
-            idx = (right + left) / 2;
-        }
+        int mid = left + (right - left) / 2;
+
+        if (isOK(mid, key))
+            right = mid;
         else
-        {
-            right = idx - 1;
-            idx = (right + left) / 2;
-        }
+            left = mid;
     }
-    return 0;
+
+    /* left は条件を満たさない最大の値、right は条件を満たす最小の値になっている */
+    return right;
 }
 
 signed main()
@@ -61,18 +49,20 @@ signed main()
     //  以降 cin の入力元が 'input.txt' になる
     //std::ifstream in("input.txt");
     //std::cin.rdbuf(in.rdbuf());
-    vi S = {1, 2, 3, 4, 5};
-    vi T = {3, 4, 1};
-
-    int ans = 0;
-    REP(i, T.size())
+    int X;
+    cin >> X;
+    int a, b;
+    b = -1000;
+    while (1)
     {
-        vector<int>::iterator pos = lower_bound(S.begin(), S.end(), T[i]);
-        int idx = distance(S.begin(), pos);
-        if (idx < S.size())
-            ans++;
+        a = binary_search(X + func(b));
+        if (func(a) - func(b) == X)
+        {
+            cout << a << " " << b;
+            break;
+        }
+        b++;
     }
-    cout << ans << endl;
 
     return 0;
 }

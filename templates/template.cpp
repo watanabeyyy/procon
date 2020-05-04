@@ -11,7 +11,7 @@ const int MAX_N = 200100;
 signed main()
 {
     //  以降 cin の入力元が 'input.txt' になる
-    //std::ifstream in("input.txt")
+    //std::ifstream in("input.txt");
     //std::cin.rdbuf(in.rdbuf());
 
     return 0;

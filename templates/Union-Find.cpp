@@ -14,7 +14,7 @@ int uf_rank[MAX_N]; //木の深さ
 //初期化、深さ0のn個の親を作る
 void init(int n)
 {
-    for (int i = 0; i < n; i++)
+    REP(i, n)
     {
         uf_par[i] = i;
         uf_rank[i] = 0;
@@ -54,4 +54,33 @@ void unite(int x, int y)
 bool same(int x, int y)
 {
     return find(x) == find(y);
+}
+
+signed main()
+{
+    //  以降 cin の入力元が 'input.txt' になる
+    std::ifstream in("input.txt");
+    std::cin.rdbuf(in.rdbuf());
+
+    int N, t;
+    cin >> N >> t;
+    init(N);
+    REP(i, t)
+    {
+        int a, b, c;
+        cin >> a >> b >> c;
+        if (a == 0)
+        {
+            unite(b, c);
+        }
+        else if (a == 1)
+        {
+            if (same(b, c))
+                cout << 1 << endl;
+            else
+                cout << 0 << endl;
+        }
+    }
+
+    return 0;
 }

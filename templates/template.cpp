@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
+#define ll long long
 #define REP(i, n) for (int i = 0; i < n; i++)
 #define ALL(a) (a).begin(), (a).end()
 typedef vector<int> vi;

@@ -31,47 +31,42 @@ inline bool chmin(T &a, T b)
     }
     return false;
 }
-int N;
-int t[101];
 
-vector<pair<int, int>> mem[101];
-
-vector<pair<int, int>> mst;
-
-typedef pair<int, pair<int, int>> mypair;
-bool operator>(const mypair a, const mypair b) { return a.first > b.first; }; //演算子オーバーロード
-
-void dijkstra()
+struct edge
 {
-    REP(i, N)
-    t[i] = -1;
+    int to;
+    int cost;
+};
 
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+// <コスト, 頂点の番号>
+using P = pair<int, int>;
 
-    t[0] = 0;
-    REP(i, mem[0].size())
+int V;                 //ノード数
+vector<edge> G[10000]; //グラフ
+int d[10000];          //最小コストを保存する配列
+
+void dijkstra(int s)
+{
+    priority_queue<P, vector<P>, greater<P>> que; //vector<P>の形でコスト昇順
+    fill(d, d + V, INF);                          //コストをINFで初期化
+    d[s] = 0;                                     //初期値へのコストは0
+    que.push(P(0, s));                            //初期値<コスト、頂点番号>d
+
+    while (!que.empty())
     {
-        int v = mem[0][i].first;
-        int c = mem[0][i].second;
-        pq.push(make_pair(t[0] + c, v));
-    }
+        P p = que.top();
+        que.pop();
+        int v = p.second;
+        if (d[v] < p.first)
+            continue;
 
-    while (!pq.empty())
-    {
-        pair<int, int> tmp = pq.top();
-        pq.pop();
-        //コストが確定していないノードから最小のコストで行ける物を探す
-        if (t[tmp.second] == -1)
+        for (int i = 0; i < G[v].size(); ++i) //vからいけるところ
         {
-            //ノードとコストの確定
-            t[tmp.second] = tmp.first;
-            //確定したノードから行ける確定していないノードをpqに追加
-            REP(i, mem[tmp.second].size())
+            edge e = G[v][i];
+            if (d[e.to] > d[v] + e.cost) //コストが更新できればqueueに追加
             {
-                int v = mem[tmp.second][i].first;
-                int c = mem[tmp.second][i].second;
-                if (t[v] == -1)
-                    pq.push(make_pair(t[tmp.second] + c, v));
+                d[e.to] = d[v] + e.cost;
+                que.push(P(d[e.to], e.to));
             }
         }
     }
@@ -79,27 +74,21 @@ void dijkstra()
 
 signed main()
 {
-    //  以降 cin の入力元が 'input.txt' になる
-    std::ifstream in("input.txt");
-    std::cin.rdbuf(in.rdbuf());
-    cin >> N;
-    REP(i, N)
+    cin >> V;
+    int E;
+    cin >> E;
+    for (int i = 0; i < E; ++i)
     {
-        int a, b;
-        cin >> a >> b;
-        REP(j, b)
-        {
-            int v, c;
-            cin >> v >> c;
-            mem[a].push_back(make_pair(v, c));
-        }
+        int a, b, c;
+        cin >> a >> b >> c; //a->bのコストc
+        edge e = {b, c};
+        G[a].push_back(e);
     }
-
-    dijkstra();
-    REP(i, N)
+    dijkstra(0);
+    for (int i = 0; i < V; ++i)
     {
-        cout << i << " " << t[i] << endl;
+        if (d[i] != INF)
+            cout << "0から" << i << "までのコスト: " << d[i] << endl;
     }
-
     return 0;
 }

@@ -2,8 +2,8 @@
 using namespace std;
 #define int long long
 #define ll long long
-#define REP(i, n) for (int i = 0; i < n; i++)
-#define ALL(a) (a).begin(), (a).end()
+#define rep(i, n) for (int i = 0; i < n; i++)
+#define all(a) (a).begin(), (a).end()
 typedef vector<int> vi;
 const int INF = 1LL << 60; //10e18+10e17ちょっとくらい
 const int MOD = 1000000007;
